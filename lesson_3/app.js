@@ -23,9 +23,9 @@ console.log(num * num2);
 console.log(num / num2);
 console.log(num % num2);
 
-const titleProject = 'Оценка стоимости';
-const screenValue = "шаблонные, с уникальным дизайном, с анимациями";
-const screenPrice = 1000000
-const percentage = 33
-const fullPrice = 5000000
-const responsive = true
+let titleProject = 'Оценка стоимости';
+let screenValue = "шаблонные, с уникальным дизайном, с анимациями";
+let screenPrice = 1000000
+let percentage = 33
+let fullPrice = 5000000
+let responsive = true
