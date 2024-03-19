@@ -26,11 +26,11 @@
 
 // console.log(res)
 
+let screenPrice = 10000;
+
 let titleProject = prompt('Название проекта?');
 let screensValue = prompt('Какой тип экрана вас интересует: шаблонные, с уникальным дизайном, с анимациями');
 let responsive = confirm('нужен ли респонсивный сайт?');
-let screenPrice = 10000;
-
 let service1 = prompt('Какой сервис нужен?');
 let servicePrice1 = prompt('Сколько это будет стоить?');
 let service2 = prompt('Какой ещё сервис нужен?');
@@ -45,12 +45,14 @@ let x = fullPrice
 
 if (x > 50000) {
     console.log('Ваша скидка 10%');
-} else if (x > 20000 || x < 50000) {
-    console.log('Ваша скидка 5%');
-} else if (x < 20000 || x > 0) {
-    console.log('Спасибо за покупку!)');
+} else if (x > 20000 && x < 50000) {
+    console.log('Ваша скидка 5%'); 
+} else if (x > 0 && x < 20000) {
+    console.log('Спасибо за покупку!'); 
 } else if (x < 0) {
-    console.log('Что то пошло не так');
+    console.log('Page not found');
+} else if (x === 0 || x === 20000 || x === 50000) {
+    console.log('Проверка на строгое равенство');
 }
 
-console.log(titleProject, screensValue, responsive, servicePercentPrice);
+console.log(titleProject, screensValue, responsive, service1, servicePrice1, service2, servicePrice2, fullPrice, servicePercentPrice);
