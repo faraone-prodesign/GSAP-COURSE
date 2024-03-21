@@ -13,24 +13,33 @@ function initCalc() {
     let getAllServicePrices = function() {
         return +servicePrice1 + +servicePrice2;
     };
+
+    getAllServicePrices()
     let allServicePrices = getAllServicePrices();
+    console.log(allServicePrices);
 
     function getFullPrice() {
         return allServicePrices + screenPrice;
     }
+
+    getFullPrice()
     let fullPrice = getFullPrice();
+    console.log(fullPrice);
 
     function getTitle() {
         return titleProject.charAt(0).toUpperCase() + titleProject.slice(1).toLowerCase();
     };
 
+    getTitle()
     titleProject = getTitle();
+    console.log(titleProject);
 
     function getServicePercentPrices() {
         let percent = fullPrice / 100 * 15;
         return fullPrice - percent;
     };
     
+    getServicePercentPrices()
     let servicePercentPrice = getServicePercentPrices();
     console.log(servicePercentPrice);
 
