@@ -1,4 +1,4 @@
-let screenPrice = 10000;
+let screenPrice; //Цена страницы
 let titleProject; //Название проекта 
 let screensValue; //Тип экрана
 let responsive; //Респонсивный или нет
@@ -13,16 +13,15 @@ const getAsking = function() { //Задает общие вопросы
     titleProject = prompt('Название проекта');
     screensValue = prompt('Какой тип экрана вас интересует: шаблонные, с уникальным дизайном, с анимациями');
     responsive = confirm('Нужен ли респонсивный сайт?');
+
+    screenPrice = prompt('Сколько это будет стоить?', 12000);
+
+    while (!checkIsNumber(screenPrice) || screenPrice.trim() === '' || screenPrice === null) {
+        screenPrice = prompt('Сколько это будет стоить?', 12000);
+    }
+    screenPrice = Number(screenPrice);
 }
 getAsking(); 
-
-
-
-//Работаем в этой области!!! LESSON-5
-
-
-
-
 
 function checkIsNumber(checkNumber) { //Проверяет на соответсвием Number
     return !isNaN(parseFloat(checkNumber)) && isFinite(checkNumber);
@@ -52,14 +51,6 @@ const getAllServicePrices = function() { //Считает сумму всех д
 }
 allServicePrices = getAllServicePrices();
 
-
-
-
-
-//Работаем в этой области!!! LESSON-5
-
-
-
 function getFullPrice() { //Считает полную стоимость проекта
     return screenPrice + allServicePrices;
 }
@@ -76,16 +67,16 @@ const getTitle = function() { //Переводит символы в необх�
 titleProject = getTitle();
 
 function getRollbackMessage() { //Выводит сообщение о скидке
-    let x = fullPrice
+    let price = fullPrice
 
-    if (x > 50000) {
-        console.log('Ваша скидка 10%');
-    } else if (x > 20000 && x <= 50000) {
-        console.log('Ваша скидка 5%'); 
-    } else if (x > 0 && x <= 20000) {
-        console.log('Спасибо за покупку!'); 
-    } else if (x <= 0) {
-        console.log('Page not found');
+    if (price > 50000) {
+        return 'Ваша скидка 10%';
+    } else if (price > 20000 && price <= 50000) {
+        return 'Ваша скидка 5%';
+    } else if (price > 0 && price <= 20000) {
+        return  'Спасибо за покупку!';
+    } else if (price <= 0) {
+        return 'Page not found';
     } 
 
 }
@@ -99,3 +90,4 @@ console.log('Сервис 2:', serviceSecond);
 console.log('Сумма дополнительных сервисов:', +allServicePrices);
 console.log('Полная стоимость:', +fullPrice);
 console.log('Стоимость с учетом % подрядчику:', +servicePercentPrices);
+console.log('Сообщение пользователю:', rollbackMessage);
