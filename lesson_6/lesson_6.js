@@ -1,93 +1,96 @@
-let screenPrice; //Цена страницы
-let titleProject; //Название проекта 
-let screensValue; //Тип экрана
-let responsive; //Респонсивный или нет
-let serviceFirst; //Услуга 1
-let serviceSecond; //Услуга 2
-let allServicePrices; //Сумма дополнительных услуг
-let fullPrice; //Общая сумма (цена экрана + доп.услуги)
-let servicePercentPrices; //Сумма с учетом %
-let rollbackMessage; //Рассчет скидки 
+'use strict'
 
-const getAsking = function() { //Задает общие вопросы
-    titleProject = prompt('Название проекта');
-    screensValue = prompt('Какой тип экрана вас интересует: шаблонные, с уникальным дизайном, с анимациями');
-    responsive = confirm('Нужен ли респонсивный сайт?');
-
-    screenPrice = prompt('Сколько это будет стоить?', 12000);
-
-    while (!checkIsNumber(screenPrice) || screenPrice.trim() === '' || screenPrice === null) {
-        screenPrice = prompt('Сколько это будет стоить?', 12000);
-    }
-    screenPrice = Number(screenPrice);
-}
-getAsking(); 
-
-function checkIsNumber(checkNumber) { //Проверяет на соответсвием Number
-    return !isNaN(parseFloat(checkNumber)) && isFinite(checkNumber);
-}
-
-const getAllServicePrices = function() { //Считает сумму всех доп.услуг
-    let sum = 0
-
-    for (let i = 0; i < 2; i++) { //Переменная let i - ??
-        if (i === 0) {
-            serviceFirst = prompt('Какой дополнительный тип услуг нужен?', 'AMO CRM - Услуа 1');
-        } else if (i === 1) {
-            serviceSecond = prompt ('Какой дополнительный тип услуг нужен?', 'BITRIX CRM - Услуга 2');
+const gameBotFunction = function() {
+        function randomGenerate(min, max) {
+            let random = (Math.floor(Math.random() * 100) + 1);
+            return Math.round(random);
         }
 
-        let textFromPromt = '';
+    let mysteryNumber = randomGenerate(1, 100);
+    let answerNum = ''
+    let tries = 3
 
-        while (!checkIsNumber(textFromPromt) || textFromPromt.trim() === '' || textFromPromt === null) {
-            textFromPromt = prompt('Сколько это будет стоить?');
-        }
-        sum += Number(textFromPromt); //sum += - ??
-
+    const isNumber = function (num) {
+        return !isNaN(parseFloat(num)) && isFinite(num)
     }
 
-    return sum
+    return function getResult() {
+        answerNum = prompt('Угадайте число от 1 жо 100')
+        if (answerNum === null) {
+            alert('Вы завершили игру')
+            return
+        }
+        while (!isNumber(answerNum) || answerNum.trim() === '') {
+            alert('Вы ввели строчку:')
+            answerNum = prompt('Угадайте число от 1 до 100')
+        }
+        answerNum = Number(answerNum)
+
+        if (mysteryNumber > answerNum) {
+            alert('Загаданное число больше:' + 'Осталось попыток:' + tries)
+        } else if (mysteryNumber < answerNum) {
+            alert('Загаданное число меньше:' + 'Осталось попыток:' + tries)
+        } else if (mysteryNumber === answerNum) {
+            const isUserWantNewGame = confirm('Поздравляю, вы угадали!!! Хотели бы сыграть ещё?')
+            if (isUserWantNewGame) {
+                tries = 3
+                mysteryNumber = randomGenerate(1, 100)
+            } else {
+                tries = 0
+            }
+        }
+
+        if (tries > 0) {
+            tries--
+            getResult();
+        } else {
+            const maybeAgain = confirm('Попыток больше нет, игра окончена. Хотите начать заново?')
+            if (maybeAgain) {
+                tries = 2
+                getResult();
+            } else {
+                alert('Вы завершили игру')
+                return
+            }
+        }
+    }
+}
+
+let launchGameBot = gameBotFunction();
+launchGameBot();
+
+
+// const gameBotFunction = function () {
+//     function randomGenerate(min,max) { //Генератор случайных чисел
+//         let randomNumber = (Math.floor(Math.random() * 100) + 1); //Получаем случайное число
+//         console.log(randomNumber); //Записываем в консоль
+//     }
+//     const checkUsersAnswers = function() { //Считает кол-во ответов и выдает промты
     
-}
-allServicePrices = getAllServicePrices();
-
-function getFullPrice() { //Считает полную стоимость проекта
-    return screenPrice + allServicePrices;
-}
-fullPrice = getFullPrice();
-
-const getServicePercentPrices = function() { //Считает стоимость проекта с учетом %
-    return fullPrice - (fullPrice / 100 * 15);
-}
-servicePercentPrices = getServicePercentPrices();
-
-const getTitle = function() { //Переводит символы в необходимый регистр
-    return titleProject.charAt(0).toUpperCase() + titleProject.slice(1).toLowerCase();
-}
-titleProject = getTitle();
-
-function getRollbackMessage() { //Выводит сообщение о скидке
-    let price = fullPrice
-
-    if (price > 50000) {
-        return 'Ваша скидка 10%';
-    } else if (price > 20000 && price <= 50000) {
-        return 'Ваша скидка 5%';
-    } else if (price > 0 && price <= 20000) {
-        return  'Спасибо за покупку!';
-    } else if (price <= 0) {
-        return 'Page not found';
-    } 
-
-}
-rollbackMessage = getRollbackMessage();
-
-console.log('Название проекта:', titleProject);
-console.log('Тип экрана:', screensValue);
-console.log('Респонсивный или нет:', responsive);
-console.log('Сервис 1:', serviceFirst);
-console.log('Сервис 2:', serviceSecond);
-console.log('Сумма дополнительных сервисов:', +allServicePrices);
-console.log('Полная стоимость:', +fullPrice);
-console.log('Стоимость с учетом % подрядчику:', +servicePercentPrices);
-console.log('Сообщение пользователю:', rollbackMessage);
+//         let answers = 0
+    
+//         for (let i = 0; i < 4; i++) { //Попытки пользователя
+//             if (i === 0 || i === 1 || i === 2) { //Если число попыток не равно 3, тогда задаем вопрос
+                
+//                 let mysteryNumber = randomGenerate(); //Вызываем функцию генератора
+//                 usersAnswers = prompt('Угадайте число от 1 до 100');
+//                 while (!checkIsNumber(usersAnswers) || usersAnswers.trim() === '' || usersAnswers === null || usersAnswers > 100) {
+//                     return alert('Game over!');
+//                 }
+//                 answers = Number(usersAnswers); 
+//                 console.log(answers);
+                
+//             } else if (i = 3) {
+//                 alert('Закончились попытки');
+//             }
+//         }
+//         return answers
+//     }
+    
+        
+//     usersAnswers = checkUsersAnswers();
+//     function checkIsNumber(checkNumber) { //Проверяет на соответсвием Number
+//         return !isNaN(parseFloat(checkNumber)) && isFinite(checkNumber);
+//     }
+//     }
+// gameBotFunction();
